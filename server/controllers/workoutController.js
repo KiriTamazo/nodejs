@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const getWorkouts = async (req, res) => {
   // find all data and sort latest date to show first
   try {
-    const workouts = await Workout.find({}).sort({ createdAt: -1 });
+    const user_id = req.user._id;
+    const workouts = await Workout.find({ user_id }).sort({ createdAt: -1 });
     return res.status(200).json(workouts);
   } catch (error) {
     return res.status(404).json({ error: error.message });
@@ -53,10 +54,17 @@ const createWorkout = async (req, res) => {
 
   //add doc to db
   try {
+    const user_id = req.user._id;
+    console.log(
+      "🚀 ~ file: workoutController.js:57 ~ createWorkout ~ user_id",
+      user_id
+    );
+
     const workout = await Workout.create({
       title,
       load,
       reps,
+      user_id,
     });
     res.status(200).json(workout);
   } catch (error) {

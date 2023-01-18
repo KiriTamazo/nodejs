@@ -29,6 +29,7 @@ const loginUser = async (req, res) => {
 
 const signupUser = async (req, res) => {
   const { email, password } = req.body;
+  console.log("req", req.body);
   try {
     // signup is custom function to save in the mongo db
     const user = await User.signup(email, password);
